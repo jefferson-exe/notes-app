@@ -38,9 +38,24 @@ fun runMenu() {
     } while (true)
 }
 
-fun addNote(){}
-fun listNotes(){}
-fun updateNote(){}
-fun deleteNote(){}
-fun exitApp(){}
+fun addNote(){
+    println("You chose Add Note")
+}
+
+fun listNotes(){
+    println("You chose List Notes")
+}
+
+fun updateNote(){
+    println("You chose Update Note")
+}
+
+fun deleteNote(){
+    println("You chose Delet Note")
+}
+
+fun exitApp(){
+    println("Exiting...bye")
+    exit(0)
+}
 
