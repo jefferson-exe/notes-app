@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="controllers.NoteAPITest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-04T21:08:09" hostname="DESKTOP-1BKCROP" time="0.057">
+  <properties/>
+  <testcase name="adding a Note to a populated list adds to ArrayList()" classname="controllers.NoteAPITest" time="0.057"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
