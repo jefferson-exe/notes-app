@@ -42,7 +42,7 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1 -> addNote()
-            2 -> listAllNotes()
+            2 -> listNotes()
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
@@ -69,8 +69,29 @@ fun addNote(){
     }
 }
 
-fun listAllNotes(){
-    //logger.info( "listNotes() function invoked")
+fun listNotes(){
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) View ACTIVE notes       |
+                  > |   3) View ARCHIVED notes     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> listActiveNotes();
+            3 -> listArchivedNotes();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
+fun listAllNotes() {
     println(noteAPI.listAllNotes())
 }
 
@@ -84,7 +105,7 @@ fun listArchivedNotes() {
 
 fun updateNote() {
     //logger.info { "updateNotes() function invoked" }
-    listAllNotes()
+    listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
@@ -107,7 +128,7 @@ fun updateNote() {
 
 fun deleteNote() {
     //logger.info { "deleteNotes() function invoked" }
-    listAllNotes()
+    listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes exist
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
