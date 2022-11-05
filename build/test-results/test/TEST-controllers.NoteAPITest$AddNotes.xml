@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controllers.NoteAPITest$AddNotes" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-11-04T21:22:27" hostname="DESKTOP-1BKCROP" time="0.11">
+<testsuite name="controllers.NoteAPITest$AddNotes" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-11-05T16:17:44" hostname="DESKTOP-1BKCROP" time="0.081">
   <properties/>
-  <testcase name="adding a Note to a populated list adds to ArrayList()" classname="controllers.NoteAPITest$AddNotes" time="0.103"/>
-  <testcase name="adding a Note to an empty list adds to ArrayList()" classname="controllers.NoteAPITest$AddNotes" time="0.005"/>
+  <testcase name="adding a Note to a populated list adds to ArrayList()" classname="controllers.NoteAPITest$AddNotes" time="0.075"/>
+  <testcase name="adding a Note to an empty list adds to ArrayList()" classname="controllers.NoteAPITest$AddNotes" time="0.004"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
