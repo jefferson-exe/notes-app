@@ -1,0 +1,10 @@
+<object-stream>
+  <list>
+    <models.Note>
+      <noteTitle>nuts</noteTitle>
+      <notePriority>3</notePriority>
+      <noteCategory>food</noteCategory>
+      <isNoteArchived>false</isNoteArchived>
+    </models.Note>
+  </list>
+</object-stream>
