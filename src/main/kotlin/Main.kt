@@ -1,32 +1,38 @@
 import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
+import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
-private val noteAPI = NoteAPI()
-
+private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 fun main(args: Array<String>) {
     mainMenu()
     runMenu()
 }
 
 fun mainMenu() : Int {
-    return ScannerInput.readNextInt("""" 
-        > -------------------------------------
-        > |           NOTE KEEPER APP         |
-        > -------------------------------------
-        > | NOTE MENU                         |
-        > |   1) Add a note                   |
-        > |   2) List all notes               |
-        > |   3) Update a note                |
-        > |   4) Delete a note                |
-        > -------------------------------------
-        > |   0) Exit                         |
-        > -------------------------------------
-        > ==>> """.trimMargin(">"))
+    return ScannerInput.readNextInt(""" 
+         > -------------------------------------
+         > |          NOTE KEEPER APP          |
+         > -------------------------------------
+         > | NOTE MENU                         |
+         > |   1) Add a note                   |
+         > |   2) List notes                   |
+         > |   3) Update a note                |
+         > |   4) Delete a note                |
+         > |   5) Archive a note               |
+         > |   6) Search note(by description)  |
+         > -------------------------------------
+         > |   20) Save notes                  |
+         > |   21) Load notes                  |
+         > -------------------------------------
+         > |   0) Exit                         |
+         > -------------------------------------
+         > ==>> """.trimMargin(">"))
 }
 
 fun runMenu() {
@@ -34,10 +40,14 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1 -> addNote()
-            2 -> listNotes()
+            2 -> listAllNotes()
             3 -> updateNote()
             4 -> deleteNote()
-            0 -> exitApp()
+            5 -> archiveNote()
+            6 -> searchNotes()
+            20  -> save()
+            21  -> load()
+            0  -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
     } while (true)
@@ -57,14 +67,22 @@ fun addNote(){
     }
 }
 
-fun listNotes(){
+fun listAllNotes(){
     //logger.info( "listNotes() function invoked")
     println(noteAPI.listAllNotes())
 }
 
+fun listActiveNotes() {
+    println(noteAPI.listActiveNotes())
+}
+
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
+}
+
 fun updateNote() {
     //logger.info { "updateNotes() function invoked" }
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
@@ -87,7 +105,7 @@ fun updateNote() {
 
 fun deleteNote() {
     //logger.info { "deleteNotes() function invoked" }
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes exist
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
@@ -98,6 +116,46 @@ fun deleteNote() {
         } else {
             println("Delete NOT Successful")
         }
+    }
+}
+
+fun archiveNote() {
+    listActiveNotes()
+    if (noteAPI.numberOfActiveNotes() > 0) {
+        //only ask the user to choose the note to archive if active notes exist
+        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (noteAPI.archiveNote(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
+}
+
+fun searchNotes() {
+    val searchTitle = readNextLine("Enter the description to search by: ")
+    val searchResults = noteAPI.searchByTitle(searchTitle)
+    if (searchResults.isEmpty()) {
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
+fun save() {
+    try {
+        noteAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        noteAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
     }
 }
 
