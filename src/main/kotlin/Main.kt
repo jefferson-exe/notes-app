@@ -28,6 +28,9 @@ fun mainMenu() : Int {
          > |   4) Delete a note                |
          > |   5) Archive a note               |
          > |   6) Search note(by description)  |
+         > |   7) Number of notes              |
+         > |   8) Number of archived notes     |
+         > |   9) Number of active notes       |
          > -------------------------------------
          > |   20) Save notes                  |
          > |   21) Load notes                  |
@@ -47,6 +50,10 @@ fun runMenu() {
             4 -> deleteNote()
             5 -> archiveNote()
             6 -> searchNotes()
+            7 -> numberOfNotes()
+            8 -> numberOfArchivedNotes()
+            9 -> numberOfActiveNotes()
+            //10 -> numberOfNotesByPriority()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -60,7 +67,8 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+    val noteStatus = readNextLine("Enter status of note e.g. To do/Doing/Done: ")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, noteStatus, false))
 
     if (isAdded) {
         println("Added Successfully")
@@ -91,6 +99,22 @@ fun listNotes(){
     }
 }
 
+fun numberOfNotes() {
+    println("Number of notes: " + noteAPI.numberOfNotes())
+}
+
+fun numberOfArchivedNotes() {
+    println("Number of archived notes: " + noteAPI.numberOfArchivedNotes())
+}
+
+fun numberOfActiveNotes(){
+    println("Number of notes by priority: " + noteAPI.numberOfActiveNotes())
+}
+
+//fun numberOfNotesByPriority(){
+    //println("Number of notes by priority: " + noteAPI.numberOfNotesByPriority())
+//}
+
 fun listAllNotes() {
     println(noteAPI.listAllNotes())
 }
@@ -113,9 +137,10 @@ fun updateNote() {
             val noteTitle = readNextLine("Enter a title for the note: ")
             val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
             val noteCategory = readNextLine("Enter a category for the note: ")
+            val noteStatus = readNextLine("Enter new status of note: ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, noteStatus,false))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
